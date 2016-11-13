@@ -1,0 +1,11 @@
+.key{
+    display:inline-block;
+    border:1px solid #000;
+    height:100px;
+    width: 20px;
+    text-align:center;
+}
+
+.key.active{
+    background:#f00;
+}
