@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Tone from 'tone';
 
 import Key from 'Key';
-// import chords from 'chords';
+import chords from 'chords';
 
 
 class App extends React.Component{
@@ -16,38 +16,43 @@ class App extends React.Component{
 
         this.state= {
             activeChord: undefined,
-            activeSynths: [],
         };
     }
 
+    getChord(chordName) {
+        return chords[chordName]
+    }
+
     playChord(e){
-        const chords = {
-            C: ['c4', 'e4', 'g4'],
-        };
+        if (this.state.activeChord){
+            return;
+        }
 
-        const chordName = e.key
-        const chord = chords[chordName]
+        const chordName = e.key;
+        const chord = this.getChord(chordName);
 
-        console.log(this.state.activeChord);
-        console.log(chordName);
-        if (this.state.activeChord === chordName){
+        if (!chord || this.state.activeChord === chordName){
             return;
         }
 
         this.setState({activeChord: chordName});
 
         chord.map(note => {
-            let synth = new Tone.Synth().toMaster();
-            synth.triggerAttack(note);
+            this.refs[note].playTone();
         });
-        console.log(chord);
     }
 
-    stopChord(){
-        const synths = this.state.activeSynths;
-        synths.map(synth => {
-            synth.triggerRelease();
+    stopChord(e){
+        const chordName = e.key;
+        const chord = this.getChord(chordName);
+        if (!chord || this.state.activeChord !== chordName){
+            return;
+        }
+
+        chord.map(note => {
+             this.refs[note].stopTone();
         });
+        this.setState({activeChord: undefined});
     }
 
     keyboardListener(){
@@ -57,14 +62,14 @@ class App extends React.Component{
     render() {
         return (
             <div>
-              <Key label="C" tone="C4"/>
-              <Key label="D" tone="D4"/>
-              <Key label="E" tone="E4"/>
-              <Key label="F" tone="F4"/>
-              <Key label="G" tone="G4"/>
-              <Key label="A" tone="A4"/>
-              <Key label="B" tone="B4"/>
-              <Key label="C" tone="C5"/>
+              <Key label="C" ref="C4" tone="C4"/>
+              <Key label="D" ref="D4" tone="D4"/>
+              <Key label="E" ref="E4" tone="E4"/>
+              <Key label="F" ref="F4" tone="F4"/>
+              <Key label="G" ref="G4" tone="G4"/>
+              <Key label="A" ref="A4" tone="A4"/>
+              <Key label="B" ref="B4" tone="B4"/>
+              <Key label="C" ref="C5" tone="C5"/>
             </div>
           );
     }

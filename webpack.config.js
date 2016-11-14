@@ -25,6 +25,10 @@ module.exports = {
         test: /\.jsx$/,
         loaders: ['babel-loader?presets[]=es2015,presets[]=react,presets[]=react-hmre',],
       },
+      {
+        test: /\.js$/,
+        loaders: ['babel-loader?presets[]=es2015,presets[]=react,presets[]=react-hmre',],
+      },
     ],
   },
 

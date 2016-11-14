@@ -5,24 +5,21 @@ var classnames = require('classnames');
 export default class Key extends React.Component{
     constructor(props){
         super(props);
-
+        let synth = new Tone.Synth().toMaster();;
         this.state = {
             active: false,
+            synth: synth,
         };
 
         this.playTone = this.playTone.bind(this);
         this.stopTone = this.stopTone.bind(this);
     }
-    playTone(e) {
-        console.log(e.keyCode);
-        var synth = new Tone.Synth().toMaster();
-
+    playTone() {
         this.setState({
             active: true,
-            synth: synth
         });
         
-        synth.triggerAttack(this.props.tone);
+        this.state.synth.triggerAttack(this.props.tone);
     }
     stopTone() {
         const synth = this.state.synth;
