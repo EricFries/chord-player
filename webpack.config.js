@@ -5,7 +5,7 @@ var DashboardPlugin = require('webpack-dashboard/plugin');
 module.exports = {
   // Makes Fetch polyfill available.
   entry: [
-    'whatwg-fetch', './entry.js',
+    './entry.js',
   ],
   devtool: 'eval',
   devServer: {

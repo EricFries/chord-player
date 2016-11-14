@@ -12,8 +12,7 @@
     "classnames": "^2.2.5",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "tone": "^0.8.0",
-    "whatwg-fetch": "^1.0.0"
+    "tone": "^0.8.0"
   },
   "devDependencies": {
     "webpack": "^1.13.1",
