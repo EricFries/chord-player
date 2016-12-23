@@ -35,7 +35,7 @@ module.exports = {
   // Webpack will look here for modules when require() is called.
   resolve: {
     root: [
-      path.resolve('./src'),
+      path.resolve('./app'),
     ],
     extensions: [
       '', '.js', '.jsx',
