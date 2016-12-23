@@ -1,42 +1,46 @@
-import React from 'react';
-import Tone from 'tone';
-var classnames = require('classnames');
+import React, { PropTypes } from 'react';
+import Sound from 'Sound';
 
-export default class Key extends React.Component{
-    constructor(props){
-        super(props);
-        let synth = new Tone.Synth().toMaster();;
-        this.state = {
-            active: false,
-            synth: synth,
-        };
+const classnames = require('classnames');
 
-        this.playTone = this.playTone.bind(this);
-        this.stopTone = this.stopTone.bind(this);
-    }
-    playTone() {
-        this.setState({
-            active: true,
-        });
-        
-        this.state.synth.triggerAttack(this.props.tone);
-    }
-    stopTone() {
-        const synth = this.state.synth;
-        synth.triggerRelease();
-        this.setState({
-            active: false,
-        });
+export default class Key extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      active: false,
+    };
 
-    }
-    getClassNames() {
-        return classnames('key', {'active': this.state.active});
-    }
-    render() {
-        const classNames = this.getClassNames();
-        return (
-          <div className={classNames} onMouseDown={this.playTone} onMouseUp={this.stopTone}>
-            {this.props.label}
-          </div>);
-    }
+    this.pressKey = this.pressKey.bind(this);
+    this.releaseKey = this.releaseKey.bind(this);
+  }
+
+  getClassNames() {
+    return classnames('key', { active: this.state.active });
+  }
+
+  releaseKey() {
+    this.setState({
+      active: false,
+    });
+  }
+
+  pressKey() {
+    this.setState({
+      active: true,
+    });
+  }
+
+  render() {
+    const classNames = this.getClassNames();
+    return (
+      <div className={classNames} onMouseDown={this.pressKey} onMouseUp={this.releaseKey}>
+        {this.props.label}
+        <Sound tone={this.props.tone} isPlaying={this.state.active} />
+      </div>);
+  }
 }
+
+Key.propTypes = {
+  label: PropTypes.string.isRequired,
+  tone: PropTypes.string.isRequired,
+};
